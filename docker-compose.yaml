@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14.1-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: default
+    ports:
+      - 5432:5432
+    volumes: 
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    container_name: example-server
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: example-server
+    env_file:
+      - config/local.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - 8080:8080
+    links:
+      - postgres
+  
+  migration:
+    image: ghcr.io/amacneil/dbmate:1
+    env_file:
+      - config/local.env
+    volumes: 
+      - "./migrations:/db/migrations"
+    command: up
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres:
+    driver: local
