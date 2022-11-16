@@ -18,3 +18,7 @@ func (a *app) HealthCheck(w http.ResponseWriter, r *http.Request) {
 		Msg:    "All healthchecks are good",
 	})
 }
+
+// func (a *app) Greeting(w http.ResponseWriter, r *http.Request) {
+// 	writeSuccess(w, "Hello world!")
+// }

@@ -12,6 +12,7 @@ type client struct {
 
 type DataLayer interface {
 	Users
+	TodoItems
 	Healthy() error
 }
 
