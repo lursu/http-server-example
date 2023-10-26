@@ -1,7 +1,6 @@
 -- migrate:up
--- #TODO Huh?
-CREATE EXTENSION IF NOT EXISTS "uuid-o
-ssp";
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS users (
     id uuid DEFAULT uuid_generate_v4 (),
@@ -9,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NULL,
     PRIMARY KEY (id)
-); 
+);
 
 -- migrate:down
 

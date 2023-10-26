@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: default
     ports:
-      - 5432:5432
+      - '5433:5432'
     volumes: 
       - postgres:/var/lib/postgresql/data
     healthcheck:
@@ -29,16 +29,16 @@ services:
       postgres:
         condition: service_healthy
     ports:
-      - 8080:8080
+      - '8080:8080'
     links:
       - postgres
   
   migration:
-    image: ghcr.io/amacneil/dbmate:1
+    image: ghcr.io/amacneil/dbmate:main
     env_file:
       - config/local.env
     volumes: 
-      - "./migrations:/db/migrations"
+      - "./db/migrations:/db/migrations"
     command: up
     depends_on:
       postgres:

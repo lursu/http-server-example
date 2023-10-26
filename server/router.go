@@ -10,7 +10,7 @@ func ConfigureRouter(a *app) *mux.Router {
 	// get a non-404 error when pinging from a browser
 	// r.HandleFunc("/", a.Greeting)
 
-	// add a healthchek endpoint on the base router
+	// add a healthcheck endpoint on the base router
 	r.HandleFunc("/health", a.HealthCheck)
 
 	// use a subrouter for add the path prefix to all api related endpoints
@@ -23,7 +23,8 @@ func ConfigureRouter(a *app) *mux.Router {
 
 	// use a todo subrouter for all todo related endpoints
 	todo := sub.PathPrefix("/todoItems").Subrouter()
-	todo.HandleFunc("/{userId}", a.GetIncompleteTodoItems).Methods("GET")
+	todo.HandleFunc("/incomplete/{userId}", a.GetIncompleteTodoItems).Methods("GET")
 	todo.HandleFunc("/create", a.CreateTodoItem).Methods("POST")
+
 	return r
 }

@@ -1,4 +1,4 @@
-// Created by Keenan
+// Created by Keenan Sanford
 package view
 
 import "time"

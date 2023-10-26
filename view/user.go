@@ -14,5 +14,4 @@ type User struct {
 // UserUpdate is the payload used to update a user
 type UserUpdate struct {
 	Name string `json:"name"`
-	// #TODO: Leland do we need an "updated at or is that handled at the db level?"
 }

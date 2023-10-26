@@ -1,4 +1,4 @@
-// Created by Keenan
+// Created by Keenan Sanford
 package data
 
 import "database/sql"
@@ -17,14 +17,12 @@ type TodoItem struct {
 	UpdatedAt   sql.NullTime
 }
 
-// var todoItems []TodoItems
-
-//
+// Gets all incomplete (is_completed = false) todoItems using the provided userId.
 func (c *client) GetIncompleteTodoItems(userId string) ([]*TodoItem, error) {
 	stmt := `SELECT id, user_id, todo_item, is_completed, created_at, updated_at FROM todo_items
-		WHERE id = $1 AND is_completed = $2;`
+		WHERE user_id = $1 AND is_completed IS NOT TRUE;`
 
-	rows, err := c.db.Query(stmt, userId, false)
+	rows, err := c.db.Query(stmt, userId)
 
 	var todoItems []*TodoItem
 
@@ -40,10 +38,11 @@ func (c *client) GetIncompleteTodoItems(userId string) ([]*TodoItem, error) {
 	return todoItems, err
 }
 
+// Created todo
 func (c *client) CreateTodoItem(userID string, todoItemName string) (*TodoItem, error) {
 	stmt := `INSERT INTO todo_items (user_id, todo_item)
 		VALUES ($1, $2)
-		RETURNING id, user_id, todo_item, is_completed, created_at, updated_at`
+		RETURNING id, user_id, todo_item, is_completed, created_at, updated_at;`
 
 	todoItem := new(TodoItem)
 	err := c.db.QueryRow(stmt, userID, todoItemName).Scan(&todoItem.ID, &todoItem.UserID,

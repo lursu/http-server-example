@@ -26,7 +26,6 @@ func (a *app) GetIncompleteTodoItems(w http.ResponseWriter, r *http.Request) {
 
 	viewTodos := convertTodoItems(todos)
 
-	// #TODO: Talk about writeSuccess / how it functions cause I don't get it
 	writeSuccess(w, &view.TodoItems{
 		TodoItems: viewTodos,
 	})
