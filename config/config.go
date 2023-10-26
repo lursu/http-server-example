@@ -19,7 +19,7 @@ type DataBase struct {
 	User     string `envconfig:"DB_USER"`
 	Password string `envconfig:"DB_PASSWORD"`
 	Name     string `envconfig:"DB_NAME"`
-	SSLMode  string `encconfig:"DB_SSLMODE" default:"disable"`
+	SSLMode  string `envconfig:"DB_SSLMODE" default:"disable"`
 }
 
 // Reads the env vars and parses them into the parent config struct
@@ -30,6 +30,8 @@ func Read(name string) (Config, error) {
 
 // Url helper to format the connection information into a connection Url
 func (d DataBase) Url() string {
+	// fmt.Println("This is the host name " + d.Host)
 	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
-		d.Host, d.Port, d.User, d.Password, d.Name, d.SSLMode)
+		"postgres", 5432, "postgres", "password", "default", "disable")
+	//d.Host, d.Port, d.User, d.Password, d.Name, d.SSLMode)
 }
